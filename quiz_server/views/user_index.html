@@ -33,8 +33,8 @@
 	<div class="container">
 		<!-- HEADER AND TODO COUNT -->
 		<div class="jumbotron text-center">
-			<img src="/images/icon_title2.png" alt="pocket_quest_title" class="picture_header">
-			<h1>Current Adventurers => <span class="label label-info">{{ todos.length }}</span></h1>
+			<img src="/images/quiz.jpg" alt="pocket_quest_title" class="picture_header">
+			<h1>Current Quizzes => <span class="label label-info">{{ quizzes.length }}</span></h1>
 		</div>
 
 		<!-- TODO LIST -->
@@ -43,22 +43,22 @@
 
 				<!-- LOOP OVER THE TODOS IN $scope.todos -->
 				<h1 style="margin-left: auto; margin-right: auto;margin-bottom:50px">Users</h1>
-				<div class="checkbox" ng-repeat="todo in todos | orderBy:'username':false">
+				<div class="checkbox" ng-repeat="quiz in quizzes | orderBy:'name':false">
 					<div style="overflow:hidden">
-						<div class="name_div" id="{{ todo.username }}" ng-click="meta_data.nameClick(todo.email,todo.meta,$event)">
-							<p class="meta_data label label-info" style="overflow-x:auto">{{ todo.username }}</p>
+						<div class="name_div" id="{{ quiz.name }}" ng-click="quiz_name.nameClick(quiz.name,quiz.genre,quiz.questions,$event)">
+							<p class="meta_data label label-info" style="overflow-x:auto">{{ quiz.name }}</p>
 						</div>
 					</div>
 				</div>
 			</div>
 			<div class="meta_child" style="float: left; margin-left:20px;width:70%;height:100%;">
 				<div style="float: left; width:100%;height:25%;">
-					<h1>Email</h1>
-					<p class="meta_data" style="overflow-x:auto">{{ meta_email }}</p>
+					<h1>Name</h1>
+					<p class="meta_data" style="overflow-x:auto">{{ quiz_name }}</p>
 				</div>
 				<div style="float: left; width:100%;">
-					<h1>Meta</h1>
-					<p class="meta_data" style="position:relative;width:100%;height:180px;word-wrap: break-word;overflow-y:auto;overflow-x:hidden;">{{ meta_meta }}</p>
+					<h1>Questions</h1>
+					<p class="meta_data" style="position:relative;width:100%;height:180px;word-wrap: break-word;overflow-y:auto;overflow-x:hidden;">{{ quiz_questions }}</p>
 					<!--<input type="checkbox" ng-click="deleteTodo(todo._id)"> {{ todo.meta }}-->
 				</div>
 			</div>

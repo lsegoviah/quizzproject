@@ -6,30 +6,28 @@ var pocketQuest = angular.module('pocketQuest', []);
 
 function mainController($scope, $http) {
 	$scope.formData = {};
-	$scope.meta_data = {};
-	$scope.meta_email = "";
-	$scope.meta_meta = "";
+	$scope.quiz_name = {};
+	$scope.quiz_genre = "";
+	$scope.quiz_questions = "";
 
 	// when landing on the page, get all todos and show them
 	$http.get('/all')
 		.success(function(data) {
-			console.log(data);
-			$scope.todos = data;
+			console.log(data[0]);
+			$scope.quizzes = data[0].tests;
 		})
 		.error(function(data) {
 			console.log('Error: ' + data);
 		});
-		
-	/*$scope.sort = function(item) {
-	    return item[$scope.orderProp];
-	}*/
 	
-	$scope.meta_data.nameClick = function(email,meta,event){
+	$scope.quiz_name.nameClick = function(name,genre,questions,event){
 		console.log("Clicked Something");
-		$scope.meta_email = email;
-		console.log($scope.meta_email);
-		$scope.meta_meta = meta;
-		console.log($scope.meta_meta);
+		$scope.quiz_name = name;
+		console.log($scope.quiz_name);
+		$scope.quiz_genre = genre;
+		console.log($scope.quiz_genre);
+		$scope.quiz_questions = questions;
+		console.log($scope.quiz_questions);
 		$('.meta_child').show();
 	};
 

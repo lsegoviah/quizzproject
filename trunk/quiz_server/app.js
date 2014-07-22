@@ -8,10 +8,10 @@ var bodyParser = require('body-parser');
 
 var mongo = require('mongodb');
 var monk = require('monk');
-var db = monk('localhost:27017/quest');
+var db = monk('localhost:27017/quiz');
 
 var routes = require(__dirname + '/routes/index');
-var users = require(__dirname + '/routes/users');
+//var users = require(__dirname + '/routes/users');
 var dirname = __dirname;
 
 var app = express();
@@ -39,7 +39,7 @@ app.use(function(req,res,next){
 });
 
 app.use('/', routes);
-app.use('/users', users);
+//app.use('/users', users);
 
 /// catch 404 and forwarding to error handler
 app.use(function(req, res, next) {

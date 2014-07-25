@@ -2,24 +2,25 @@
 <!doctype html>
 
 <!-- ASSIGN OUR ANGULAR MODULE -->
-<html ng-app="pocketQuest">
+<html ng-app="quizProject">
 <head>
 	<!-- META -->
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1"><!-- Optimize mobile viewport -->
 
-	<title>Pocket Quest Data Summary</title>
+	<title>Quiz Admin Portal</title>
 
 	<!-- SCROLLS -->
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"><!-- load bootstrap -->
 	<style>
-		html 					{ overflow-y:scroll; }
-		body 					{ padding-top:50px; }
-		#todo-list 				{ margin-bottom:30px; }
-		.picture_header			{ height: 100%; width: 100%; padding-left: 100px; padding-right: 100px; padding-top: 10px; padding-bottom: 10px;}
-		.data_div				{ width: 90%; padding-top:10px; padding-bottom:10px;}
-		.meta_child				{ display: none;}
-		.meta_data				{ cursor:pointer;}
+		html 							{ overflow-y:scroll; }
+		body 							{ padding-top:50px; }
+		#view_tab,#edit_tab,#home_tab 	{ margin-bottom:30px; }
+		.picture_header					{ height: 100%; width: 100%; padding-left: 100px; padding-right: 100px; padding-top: 10px; padding-bottom: 10px;}
+		.data_div						{ width: 90%; padding-top:10px; padding-bottom:10px;}
+		.meta_child						{ display: none;}
+		.meta_data						{ cursor:pointer;}
+		.remove							{ float: right;}
 	</style>
 
 	<!-- SPELLS -->
@@ -33,19 +34,92 @@
 	<div class="container">
 		<!-- HEADER AND TODO COUNT -->
 		<div class="jumbotron text-center">
-			<img src="/images/quiz.jpg" alt="pocket_quest_title" class="picture_header">
+			<!--  <img src="/images/quiz.jpg" alt="pocket_quest_title" class="picture_header"> -->
 			<h1>Current Quizzes => <span class="label label-info">{{ quizzes.length }}</span></h1>
 		</div>
 
-		<!-- TODO LIST -->
-		<div id="todo-list" class="row" style="height:300px; margin-bottom:30px">
+		<ul class="nav nav-tabs" role="tablist">
+		  <li id="home_nav" class="active"><a href="#" ng-click="tabClick('home')">Home</a></li>
+		  <li id="edit_nav"><a href="#" ng-click="tabClick('edit')">Edit</a></li>
+		  <li id="view_nav"><a href="#" ng-click="tabClick('view')">View</a></li>
+		</ul>
+
+		<!-- HOME TAB -->
+		<div id="home_tab" class="row" style="height:auto; margin-bottom:30px">
 			<div class="data_div well" style="float: left;width:20%;height:100%;">
 
 				<!-- LOOP OVER THE TODOS IN $scope.todos -->
-				<h1 style="margin-left: auto; margin-right: auto;margin-bottom:50px">Users</h1>
+				<h1 style="margin-left: auto; margin-right: auto;margin-bottom:50px">Home</h1>
 				<div class="checkbox" ng-repeat="quiz in quizzes | orderBy:'name':false">
 					<div style="overflow:hidden">
-						<div class="name_div" id="{{ quiz.name }}" ng-click="quiz_name.nameClick(quiz.name,quiz.genre,quiz.questions,$event)">
+						<div class="name_div" id="{{ quiz.name }}" ng-click="nameClick(quiz, true)">
+							<p class="meta_data label label-info" style="overflow-x:auto">{{ quiz.name }}</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="meta_child" style="float: left; margin-left:20px;width:70%;height:100%;">
+				<div style="float: left; width:100%;height:25%;">
+					<h1>Name</h1>
+					<p class="meta_data" style="overflow-x:auto">{{ quiz_name }}</p>
+				</div>
+				<div style="float: left; width:100%;">
+					<h1>Questions</h1>
+					<p class="meta_data" style="position:relative;width:100%;height:180px;word-wrap: break-word;overflow-y:auto;overflow-x:hidden;">{{ quiz_questions }}</p>
+					<!--<input type="checkbox" ng-click="deleteTodo(todo._id)"> {{ todo.meta }}-->
+				</div>
+			</div>
+		</div>
+
+		<!-- EDIT TAB -->
+		<div id="edit_tab" class="row" style="height:auto; margin-bottom:30px;display: none;">
+			<div class="data_div well" style="float: left;width:20%;height:100%;">
+
+				<!-- LOOP OVER THE TODOS IN $scope.todos -->
+				<h1 style="margin-left: auto; margin-right: auto;margin-bottom:50px">Edit</h1>
+				<div class="add_quiz_holder">
+					<a class='remove glyphicon glyphicon-plus' href='' ng-click='add_test()'></a>
+					<div class='add_quiz' style='display:none'>
+						<form>
+							<p class='meta_data label label-info'><b>Quiz Name:</b></p>
+							<p><p><input type='text' ng-model='new_quiz.name' placeholder='quiz name'/></p></p>
+							<p class='meta_data label label-info'><b>Quiz Genre:</b></p>
+							<p><p><input type='text' ng-model='new_quiz.genre' placeholder='quiz genre'/></p></p>
+							<input type='submit' value='Save' ng-click='saveQuiz(new_quiz)'/>
+						</form>
+					</div>
+				</div>
+				<br>
+				<div class="checkbox" ng-repeat="quiz in quizzes | orderBy:'name':false">
+					<div style="overflow:hidden">
+						<div class="name_div" id="{{ quiz.name }}" ng-click="nameClick(quiz,true)">
+							<p class="meta_data label label-info" style="overflow-x:auto">{{ quiz.name }}</p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="meta_child" style="float: left; margin-left:20px;width:70%;height:100%;">
+				<div style="float: left; width:100%;height:25%;">
+					<h1>Name</h1>
+					<p class="meta_data" style="overflow-x:auto">{{ quiz_name }}</p>
+				</div>
+				<div style="float: left; width:100%;">
+					<h1>Questions</h1>
+					<div class="question_holder" style="overflow-x:auto"></div>
+					<!--<input type="checkbox" ng-click="deleteTodo(todo._id)"> {{ todo.meta }}-->
+				</div>
+			</div>
+		</div>
+
+		<!-- VIEW TAB -->
+		<div id="view_tab" class="row" style="height:auto; margin-bottom:30px;display: none;">
+			<div class="data_div well" style="float: left;width:20%;height:100%;">
+
+				<!-- LOOP OVER THE TODOS IN $scope.todos -->
+				<h1 style="margin-left: auto; margin-right: auto;margin-bottom:50px">View</h1>
+				<div class="checkbox" ng-repeat="quiz in quizzes | orderBy:'name':false">
+					<div style="overflow:hidden">
+						<div class="name_div" id="{{ quiz.name }}" ng-click="nameClick(quiz,true)">
 							<p class="meta_data label label-info" style="overflow-x:auto">{{ quiz.name }}</p>
 						</div>
 					</div>
@@ -65,21 +139,19 @@
 		</div>
 
 		<!-- FORM TO CREATE TODOS -->
-		<div id="todo-form" class="row" style="overflow:hidden; padding-bottom:20px">
+		<!-- <div id="todo-form" class="row" style="overflow:hidden; padding-bottom:20px">
 			<div class="col-sm-8 col-sm-offset-2 text-center">
 				<form>
 					<div class="form-group">
 
-						<!-- BIND THIS VALUE TO formData.text IN ANGULAR -->
 						<input style="float: left; width:40%" type="text" class="form-control input-lg text-center" placeholder="Username" ng-model="formData.name">
 						<input style="float: left; width:40%; margin-left:10px" type="text" class="form-control input-lg text-center" placeholder="Email" ng-model="formData.email">
 					</div>
 
-					<!-- createToDo() WILL CREATE NEW TODOS -->
 					<button type="submit" class="btn btn-primary btn-lg" ng-click="createUser()" style="float: left; margin-left:20px">Add</button>
 				</form>
 			</div>
-		</div>
+		</div> -->
 
 	</div>
 </body>

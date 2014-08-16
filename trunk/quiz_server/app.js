@@ -6,11 +6,8 @@ module.exports = function(db){
 	var logger = require('morgan');
 	var cookieParser = require('cookie-parser');
 	var bodyParser = require('body-parser');
-	//var engines = require('consolidate');
-	
 	var mongo = require('mongodb');
 	var monk = require('monk');
-	var db = monk('localhost:27017/quiz');
 	
 	var routes = require(__dirname + '/routes/index');
 	var dirname = __dirname;

@@ -1,5 +1,5 @@
 var mongoose = require('mongoose');
 
-mongoose.connect('mongodb://tester:tester123@ds035137.mongolab.com:35137/trendsettr');
+mongoose.connect('localhost:27017/quiz');
 
 module.exports = mongoose.connection;

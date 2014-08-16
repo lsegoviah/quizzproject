@@ -1,5 +1,5 @@
-var mongoose = require('mongoose');
+var monk = require('monk');
 
-mongoose.connect('localhost:27017/quiz');
+var db = monk('localhost:27017/quiz');
 
-module.exports = mongoose.connection;
+module.exports = db;

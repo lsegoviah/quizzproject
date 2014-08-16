@@ -3,7 +3,7 @@ var router = express.Router();
 var http = require('http');
 
 
-var new_test_meta =  /*{tests:*/{name:"dmv_test",genre:"education",questions:[{
+var new_test_meta =  {name:"dmv_test",genre:"education",questions:[{
   	question:"A pre-trip inspection should be completed",
   	answers:["at least once a week","if any problems occurred the last the time the vehicle was operated","before operating the vehicle"],
   	correct:3},
@@ -12,18 +12,13 @@ var new_test_meta =  /*{tests:*/{name:"dmv_test",genre:"education",questions:[{
   	answers:["Make sure you are driving slow enough so you can stop within the range of your headlights in an emergency",
   	"Roll down your window so that the fresh air will help keep you awake","If you are sleepy, drink coffee or other caffeine products"],
   	correct:1}]
-  	}
-  /*}*/;
+  	};
 
 
 
 /* GET home page. */
 router.get('/', function(req, res) {
-  res.render('index', { title: 'Express' });
-});
-
-router.get('/quiz', function(req, res) {
-    res.sendfile(req.abs_path + '/views/user_index.html');
+  res.sendfile(req.abs_path + '/views/user_index.html');
 });
 
 /*GET all meta*/

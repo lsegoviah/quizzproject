@@ -74,11 +74,11 @@ function mainController($scope, $http, $compile) {
 			$scope.quiz = quiz;
 			$scope.quiz_name = $scope.quiz['name'];
 			$scope.quiz_questions = quiz['questions'];
-			var question_string = "";
+			var question_string = add_question();
 			for(var i = 0; i < quiz['questions'].length; i++){
 				question_string += question_formatter(quiz['questions'][i]);
 			}
-			question_string += add_question();
+			//question_string += add_question();
 			console.log(question_string);
 			$('.question_holder').html($compile($(question_string).contents())($scope));
 			$('.meta_child').show();
@@ -149,23 +149,27 @@ function mainController($scope, $http, $compile) {
 		for(answer in $scope.editing_answers){
 			answers.push($scope.editing_answers[answer].name);
 		}
-		question['answers'] = answers;
-		question['test'] = $scope.quiz['name'];
-		console.log(question);
-
-		$scope.formData = question;
-		console.log($scope.formData);
-		
-		$http.post('/add_question', $scope.formData)
-			.success(function(data) {
-				console.log("Add returned success!!!");
-				reload_form_data();
-				$scope.loadData();
-			})
-			.error(function(data) {
-				console.log('Error: ' + data);
-			});
-		$scope.nameClick($scope.quiz,false);
+		if(1 <= question['correct'] && question['correct'] <= answers.length){
+			question['answers'] = answers;
+			question['test'] = $scope.quiz['name'];
+			console.log(question);
+	
+			$scope.formData = question;
+			console.log($scope.formData);
+			
+			$http.post('/add_question', $scope.formData)
+				.success(function(data) {
+					console.log("Add returned success!!!");
+					reload_form_data();
+					$scope.loadData();
+				})
+				.error(function(data) {
+					console.log('Error: ' + data);
+				});
+			$scope.nameClick($scope.quiz,false);
+		}else{
+			alert("The correct answer must be an answer option!");
+		}
 	};
 	
 	$scope.delete_question = function(question){

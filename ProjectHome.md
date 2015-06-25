@@ -1,0 +1,1 @@
+For any quiz you can think of
